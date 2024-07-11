@@ -1,4 +1,5 @@
-﻿using MicroRabbit.Banking.Application.Interfaces;
+﻿using MediatR;
+using MicroRabbit.Banking.Application.Interfaces;
 using MicroRabbit.Banking.Application.Services;
 using MicroRabbit.Banking.Data.Context;
 using MicroRabbit.Banking.Data.Repository;
@@ -18,15 +19,16 @@ namespace MicroRabbit.Infrastructure.IoC
     {
         public static void RegisterServices(IServiceCollection services)
         {
-            
+            services.AddTransient<IMediator, Mediator>(); 
             services.AddTransient<IEventBus, RabbitMQBus>();
 
             //Application Services
             services.AddTransient<IAccountService, AccountService>();
 
             //Data
-            services.AddTransient<IAccountRepository, AccountRepository>();
             services.AddTransient<BankingDbContext>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            
 
         }
     }
