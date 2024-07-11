@@ -1,7 +1,6 @@
 using MicroRabbit.Banking.Data.Context;
 using MicroRabbit.Infrastructure.IoC;
 using Microsoft.EntityFrameworkCore;
-using Swashbuckle.Swagger;
 using System;
 using System.Reflection;
 
