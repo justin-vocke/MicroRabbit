@@ -1,7 +1,9 @@
 using MicroRabbit.Banking.Data.Context;
 using MicroRabbit.Infrastructure.IoC;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.Swagger;
 using System;
+using System.Reflection;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,9 +17,16 @@ builder.Services.AddDbContext<BankingDbContext>(
 );
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo()
+    {
+         Title = "v1",
+         Description = "Banking Microservice" 
+    });
+});
 
-
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 RegisterServices(builder.Services);
 
 void RegisterServices(IServiceCollection services)
@@ -31,7 +40,10 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Banking Microservice V1");
+    });
 }
 
 app.UseHttpsRedirection();
