@@ -31,6 +31,7 @@ RegisterServices(builder.Services);
 void RegisterServices(IServiceCollection services)
 {
     DependencyContainer.RegisterServices(services);
+    DependencyContainer.RegisterBankingServices(services);
 }
 
 var app = builder.Build();
